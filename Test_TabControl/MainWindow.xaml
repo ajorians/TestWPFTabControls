@@ -14,6 +14,7 @@
          <Color x:Key="DarkPanelColor">#161b1d</Color>
          <Color x:Key="MainPanelColor">#23282f</Color>
          <Color x:Key="ControlColor">#363E45</Color>
+         <Color x:Key="TextBrightColor">#FFFFFF</Color>
          <SolidColorBrush x:Key="TextBrush"
                           Color="{StaticResource TextColor}" />
          <SolidColorBrush x:Key="DarkPanelBrush"
@@ -22,6 +23,70 @@
                           Color="{StaticResource MainPanelColor}" />
          <SolidColorBrush x:Key="ControlBrush"
                           Color="{StaticResource ControlColor}" />
+         <SolidColorBrush x:Key="TextBrightBrush"
+                          Color="{StaticResource TextBrightColor}" />
+         <ControlTemplate x:Key="CloseXGlyphControlTemplate">
+            <Grid>
+               <Path x:Name="closeXGlyph"
+                     Data="F0 M16,16z M0,0z M9.7678,8L9.7678,8 15.955,14.1872 14.1872,15.955 8,9.7678 1.8128,15.955 0.045,14.1872 6.2322,8 0.045,1.8128 1.8128,0.045 8,6.2322 14.1872,0.045 15.955,1.8128z"
+                     Fill="{TemplateBinding Foreground}"
+                     Stretch="Uniform" />
+            </Grid>
+         </ControlTemplate>
+         <!--X Button Style-->
+         <Style x:Key="XButtonStyle"
+                TargetType="{x:Type Button}">
+            <Setter Property="Template"
+                    Value="{StaticResource CloseXGlyphControlTemplate}" />
+            <Setter Property="Width"
+                    Value="6" />
+            <Setter Property="Height"
+                    Value="6" />
+            <Setter Property="Background"
+                    Value="Transparent" />
+            <Setter Property="Template">
+               <Setter.Value>
+                  <ControlTemplate>
+                     <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                           <VisualStateGroup x:Name="CommonStates">
+                              <VisualStateGroup.Transitions>
+                                 <VisualTransition GeneratedDuration="0:0:0.2">
+                                    <VisualTransition.GeneratedEasingFunction>
+                                       <ExponentialEase EasingMode="EaseOut"
+                                                        Exponent="4" />
+                                    </VisualTransition.GeneratedEasingFunction>
+                                 </VisualTransition>
+                              </VisualStateGroup.Transitions>
+                              <VisualState x:Name="Normal" />
+                              <VisualState x:Name="MouseOver">
+                                 <Storyboard>
+                                    <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
+                                                                  Storyboard.TargetName="control">
+                                       <EasingColorKeyFrame KeyTime="0"
+                                                            Value="Tomato" />
+                                    </ColorAnimationUsingKeyFrames>
+                                 </Storyboard>
+                              </VisualState>
+                              <VisualState x:Name="Pressed" />
+                              <VisualState x:Name="Disabled" />
+                           </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Rectangle x:Name="partRect"
+                                   Fill="Transparent" />
+                        <Control x:Name="control"
+                                 Template="{StaticResource CloseXGlyphControlTemplate}"
+                                 Foreground="{StaticResource TextBrush}"
+                                 IsTabStop="False"
+                                 Height="10"
+                                 Width="10"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center" />
+                     </Grid>
+                  </ControlTemplate>
+               </Setter.Value>
+            </Setter>
+         </Style>
          <Style x:Key="GroupFlatTabControlStyle"
                 TargetType="{x:Type local:CustomTabControl}">
             <Setter Property="Template">
@@ -75,15 +140,12 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              CornerRadius="7,7,0,0"
-                             Margin="0,3,4,0">
+                             Margin="3,3,2,0">
                         <StackPanel Orientation="Horizontal"
                                     Margin="19,3,19,4">
-                           <Button Content="x"
-                                   Foreground="White"
-                                   Background="Transparent"
-                                   Width="8"
-                                   Height="8"
-                                   Margin="0,0,3,0"
+                           <Button Margin="0,0,3,0"
+                                   Style="{StaticResource XButtonStyle}"
+                                   Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
                                    Visibility="Visible"/>
                            <TextBlock Foreground="{TemplateBinding Foreground}"
                                       FontSize="11"

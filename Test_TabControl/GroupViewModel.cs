@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Test_TabControl
 {
@@ -10,7 +11,6 @@ namespace Test_TabControl
             PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
         }
 
-        //public string Header { get; set; }
         public string Content { get; set; }
 
         private string _header;
@@ -29,5 +29,13 @@ namespace Test_TabControl
                 }
             }
         }
+
+        private void RemoveMyself()
+        {
+            Header = "Dead";
+        }
+
+        private ICommand _removeGroupCommand;
+        public ICommand RemoveGroupCommand => _removeGroupCommand ?? ( _removeGroupCommand = new RelayCommand( RemoveMyself, () => true ) );
     }
 }
