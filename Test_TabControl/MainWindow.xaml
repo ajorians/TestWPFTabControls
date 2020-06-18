@@ -66,7 +66,7 @@
                                     <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)"
                                                                   Storyboard.TargetName="control">
                                        <EasingColorKeyFrame KeyTime="0"
-                                                            Value="Tomato" />
+                                                            Value="{StaticResource TextBrightColor}" />
                                     </ColorAnimationUsingKeyFrames>
                                  </Storyboard>
                               </VisualState>
