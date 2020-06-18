@@ -13,12 +13,15 @@
          <Color x:Key="TextColor">#D8DEE3</Color>
          <Color x:Key="DarkPanelColor">#161b1d</Color>
          <Color x:Key="MainPanelColor">#23282f</Color>
+         <Color x:Key="ControlColor">#363E45</Color>
          <SolidColorBrush x:Key="TextBrush"
                           Color="{StaticResource TextColor}" />
          <SolidColorBrush x:Key="DarkPanelBrush"
                           Color="{StaticResource DarkPanelColor}" />
          <SolidColorBrush x:Key="MainPanelBrush"
                           Color="{StaticResource MainPanelColor}" />
+         <SolidColorBrush x:Key="ControlBrush"
+                          Color="{StaticResource ControlColor}" />
          <Style x:Key="GroupFlatTabControlStyle"
                 TargetType="{x:Type local:CustomTabControl}">
             <Setter Property="Template">
@@ -53,12 +56,10 @@
                         <Border x:Name="Border"
                                 Grid.Row="1"
                                 BorderThickness="0"
-                                CornerRadius="2"
+                                CornerRadius="4"
                                 KeyboardNavigation.TabNavigation="Local"
                                 KeyboardNavigation.DirectionalNavigation="Contained"
                                 KeyboardNavigation.TabIndex="2">
-                           <ContentPresenter x:Name="PART_SelectedContentHost"
-                                             ContentSource="SelectedContent" />
                         </Border>
                      </Grid>
                   </ControlTemplate>
@@ -72,19 +73,30 @@
                   <ControlTemplate TargetType="TabItem">
                      <Border Background="{TemplateBinding Background}"
                              HorizontalAlignment="Stretch"
-                             VerticalAlignment="Stretch">
-                        <TextBlock Foreground="{TemplateBinding Foreground}"
-                                   FontSize="11"
-                                   Margin="19,3,19,4"
-                                   TextAlignment="Center">
-                           <ContentPresenter ContentSource="Header" />
-                        </TextBlock>
+                             VerticalAlignment="Stretch"
+                             CornerRadius="7,7,0,0"
+                             Margin="0,3,4,0">
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="19,3,19,4">
+                           <Button Content="x"
+                                   Foreground="White"
+                                   Background="Transparent"
+                                   Width="8"
+                                   Height="8"
+                                   Margin="0,0,3,0"
+                                   Visibility="Visible"/>
+                           <TextBlock Foreground="{TemplateBinding Foreground}"
+                                      FontSize="11"
+                                      TextAlignment="Center">
+                              <ContentPresenter ContentSource="Header" />
+                           </TextBlock>
+                        </StackPanel>
                      </Border>
                   </ControlTemplate>
                </Setter.Value>
             </Setter>
             <Setter Property="Background"
-                    Value="{StaticResource DarkPanelBrush}" />
+                    Value="{StaticResource ControlBrush}" />
             <Setter Property="Foreground"
                     Value="{StaticResource TextBrush}" />
             <Style.Triggers>
@@ -104,34 +116,29 @@
       </Grid.RowDefinitions>
       <local:CustomTabControl ItemsSource="{Binding GroupTabs,Mode=OneWay}"
                               Style="{StaticResource GroupFlatTabControlStyle}"
-                  Grid.Row="0"
-                  Margin="0,1,0,0"
-                  Padding="0"
-                  HorizontalAlignment="Stretch">
+                              Grid.Row="0"
+                              Margin="0,1,0,0"
+                              Padding="0"
+                              HorizontalAlignment="Stretch">
          <local:CustomTabControl.ItemContainerStyle>
             <Style TargetType="TabItem"
                    BasedOn="{StaticResource GroupTabHeaderStyle}" />
          </local:CustomTabControl.ItemContainerStyle>
          <TabControl.ItemTemplate>
-            <!-- this is the header template-->
             <DataTemplate>
                <TextBlock Text="{Binding Header}" />
             </DataTemplate>
          </TabControl.ItemTemplate>
-         <TabControl.ContentTemplate>
-            <!--this is the body of the TabItem template and is empty-->
-            <DataTemplate />
-         </TabControl.ContentTemplate>
       </local:CustomTabControl>
 
       <StackPanel Grid.Row="1"
                   Orientation="Vertical">
          <Label Content="New Group Name:"
-                Margin="10,0,0,0"/>
+                Margin="10,0,0,0" />
          <TextBox Text="{Binding Path=NewGroupName, Mode=TwoWay}"
                   Margin="10,0,0,0"
                   Width="100"
-                  HorizontalAlignment="Left"/>
+                  HorizontalAlignment="Left" />
          <Button Content="Add New Group"
                  Width="100"
                  HorizontalAlignment="Left"
