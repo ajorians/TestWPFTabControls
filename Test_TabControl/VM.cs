@@ -9,13 +9,13 @@ using System.Windows.Input;
 
 namespace Test_TabControl
 {
-    public class VM : INotifyPropertyChanged
+    public class VM : INotifyPropertyChanged, IRemoveTabs
     {
         public VM()
         {
             GroupTabs = new ObservableCollection<GroupViewModel>()
             {
-                new GroupViewModel(){ Header= "Main Timeline", AllowClosing=false }
+                new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false }
             };
         }
 
@@ -62,7 +62,12 @@ namespace Test_TabControl
 
         private void AddNewGroup()
         {
-            GroupTabs.Add( new GroupViewModel() { Header = NewGroupName, AllowClosing = true } );
+            GroupTabs.Add( new GroupViewModel(this) { Header = NewGroupName, AllowClosing = true } );
+        }
+
+        public void RemoveTab( GroupViewModel groupViewModel )
+        {
+            GroupTabs.Remove( groupViewModel );
         }
 
         private ICommand _addNewGroupCommand;

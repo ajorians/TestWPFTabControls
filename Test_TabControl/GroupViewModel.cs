@@ -5,6 +5,12 @@ namespace Test_TabControl
 {
     public class GroupViewModel : INotifyPropertyChanged
     {
+        private readonly IRemoveTabs _removeTabs;
+        public GroupViewModel(IRemoveTabs removeTabs)
+        {
+            _removeTabs = removeTabs;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged( string prop )
         {
@@ -32,7 +38,7 @@ namespace Test_TabControl
 
         private void RemoveMyself()
         {
-            Header = "Dead";
+            _removeTabs.RemoveTab( this );
         }
 
         private ICommand _removeGroupCommand;
