@@ -37,5 +37,22 @@ namespace Test_TabControl
 
         private ICommand _removeGroupCommand;
         public ICommand RemoveGroupCommand => _removeGroupCommand ?? ( _removeGroupCommand = new RelayCommand( RemoveMyself, () => true ) );
+
+        private bool _allowClosing;
+        public bool AllowClosing
+        {
+            get
+            {
+                return _allowClosing;
+            }
+            set
+            {
+                if( value != _allowClosing )
+                {
+                    _allowClosing = value;
+                    OnPropertyChanged( nameof( AllowClosing ) );
+                }
+            }
+        }
     }
 }

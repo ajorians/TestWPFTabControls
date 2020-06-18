@@ -15,7 +15,7 @@ namespace Test_TabControl
         {
             GroupTabs = new ObservableCollection<GroupViewModel>()
             {
-                new GroupViewModel(){ Header= "Main Timeline" }
+                new GroupViewModel(){ Header= "Main Timeline", AllowClosing=false }
             };
         }
 
@@ -62,7 +62,7 @@ namespace Test_TabControl
 
         private void AddNewGroup()
         {
-            GroupTabs.Add( new GroupViewModel() { Header = NewGroupName } );
+            GroupTabs.Add( new GroupViewModel() { Header = NewGroupName, AllowClosing = true } );
         }
 
         private ICommand _addNewGroupCommand;

@@ -10,6 +10,8 @@
         Width="800">
    <Window.Resources>
       <ResourceDictionary>
+         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+         
          <Color x:Key="TextColor">#D8DEE3</Color>
          <Color x:Key="DarkPanelColor">#161b1d</Color>
          <Color x:Key="MainPanelColor">#23282f</Color>
@@ -146,7 +148,7 @@
                            <Button Margin="0,0,3,0"
                                    Style="{StaticResource XButtonStyle}"
                                    Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
-                                   Visibility="Visible"/>
+                                   Visibility="{Binding AllowClosing, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
                            <TextBlock Foreground="{TemplateBinding Foreground}"
                                       FontSize="11"
                                       TextAlignment="Center">
