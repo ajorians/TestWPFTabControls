@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Test_TabControl"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow"
+        Height="450"
+        Width="800">
    <Window.Resources>
       <ResourceDictionary>
          <Color x:Key="TextColor">#D8DEE3</Color>
@@ -72,8 +74,8 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch">
                         <TextBlock Foreground="{TemplateBinding Foreground}"
-                                   FontSize="13"
-                                   Margin="19,9"
+                                   FontSize="11"
+                                   Margin="19,3,19,4"
                                    TextAlignment="Center">
                            <ContentPresenter ContentSource="Header" />
                         </TextBlock>
@@ -95,13 +97,17 @@
          </Style>
       </ResourceDictionary>
    </Window.Resources>
-    <Grid>
-      <local:CustomTabControl Grid.Row="1"
-                                          Grid.Column="1"
-                                          Style="{StaticResource GroupFlatTabControlStyle}"
-                                          Margin="0,1,0,0"
-                                          Padding="0"
-                                          HorizontalAlignment="Stretch">
+   <Grid>
+      <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
+         <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <local:CustomTabControl Grid.Row="0"
+                              Grid.Column="1"
+                              Style="{StaticResource GroupFlatTabControlStyle}"
+                              Margin="0,1,0,0"
+                              Padding="0"
+                              HorizontalAlignment="Stretch">
          <TabItem Style="{DynamicResource GroupTabHeaderStyle}"
                   Header="Main Timeline">
          </TabItem>
@@ -112,5 +118,19 @@
                   Header="Group 2">
          </TabItem>
       </local:CustomTabControl>
+      <StackPanel Grid.Row="1"
+                  Orientation="Vertical">
+         <Label Content="New Group Name:"
+                Margin="10,0,0,0"/>
+         <TextBox Text="{Binding Path=ExampleText, Mode=TwoWay}"
+                  Margin="10,0,0,0"
+                  Width="100"
+                  HorizontalAlignment="Left"/>
+         <Button Content="Add New Group"
+                 Width="100"
+                 HorizontalAlignment="Left"
+                 Margin="10,0,0,0"
+                 Command="{Binding Path=AddNewGroupCommand,Mode=OneTime}" />
+      </StackPanel>
    </Grid>
 </Window>

@@ -23,6 +23,7 @@ namespace Test_TabControl
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new VM();
         }
     }
 }
