@@ -143,18 +143,7 @@
                              VerticalAlignment="Stretch"
                              CornerRadius="7,7,0,0"
                              Margin="3,3,2,0">
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="19,3,19,4">
-                           <Button Margin="0,0,3,0"
-                                   Style="{StaticResource XButtonStyle}"
-                                   Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
-                                   Visibility="{Binding AllowClosing, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"/>
-                           <TextBlock Foreground="{TemplateBinding Foreground}"
-                                      FontSize="11"
-                                      TextAlignment="Center">
-                              <ContentPresenter ContentSource="Header" />
-                           </TextBlock>
-                        </StackPanel>
+                        <ContentPresenter ContentSource="Header" />
                      </Border>
                   </ControlTemplate>
                </Setter.Value>
@@ -190,7 +179,17 @@
          </local:CustomTabControl.ItemContainerStyle>
          <TabControl.ItemTemplate>
             <DataTemplate>
-               <TextBlock Text="{Binding Header}" />
+               <StackPanel Orientation="Horizontal"
+                           Margin="19,3,19,4">
+                  <Button Margin="0,0,3,0"
+                          Style="{StaticResource XButtonStyle}"
+                          Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
+                          Visibility="{Binding AllowClosing, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                  <TextBlock Foreground="{Binding LabelBrush,Mode=OneWay}"
+                             FontSize="11"
+                             TextAlignment="Center"
+                             Text="{Binding Header}" />
+               </StackPanel>
             </DataTemplate>
          </TabControl.ItemTemplate>
       </local:CustomTabControl>

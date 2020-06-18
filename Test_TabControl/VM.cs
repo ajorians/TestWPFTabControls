@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Test_TabControl
 {
@@ -15,7 +16,7 @@ namespace Test_TabControl
         {
             GroupTabs = new ObservableCollection<GroupViewModel>()
             {
-                new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false }
+                new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false, LabelBrush = Brushes.White }
             };
         }
 
@@ -62,7 +63,7 @@ namespace Test_TabControl
 
         private void AddNewGroup()
         {
-            GroupTabs.Add( new GroupViewModel(this) { Header = NewGroupName, AllowClosing = true } );
+            GroupTabs.Add( new GroupViewModel(this) { Header = NewGroupName, AllowClosing = true, LabelBrush = Brushes.Green } );
         }
 
         public void RemoveTab( GroupViewModel groupViewModel )

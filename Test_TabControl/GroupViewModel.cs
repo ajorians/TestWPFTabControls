@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Test_TabControl
 {
@@ -57,6 +58,23 @@ namespace Test_TabControl
                 {
                     _allowClosing = value;
                     OnPropertyChanged( nameof( AllowClosing ) );
+                }
+            }
+        }
+
+        private SolidColorBrush _labelBrush;
+        public SolidColorBrush LabelBrush
+        {
+            get
+            {
+                return _labelBrush;
+            }
+            set
+            {
+                if( _labelBrush != value )
+                {
+                    _labelBrush = value;
+                    OnPropertyChanged( nameof( LabelBrush ) );
                 }
             }
         }
