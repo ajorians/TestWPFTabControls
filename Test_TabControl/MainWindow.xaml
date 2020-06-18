@@ -41,9 +41,9 @@
             <Setter Property="Template"
                     Value="{StaticResource CloseXGlyphControlTemplate}" />
             <Setter Property="Width"
-                    Value="6" />
+                    Value="8" />
             <Setter Property="Height"
-                    Value="6" />
+                    Value="8" />
             <Setter Property="Background"
                     Value="Transparent" />
             <Setter Property="Template">
@@ -142,8 +142,9 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              CornerRadius="7,7,0,0"
-                             Margin="3,3,2,0">
-                        <ContentPresenter ContentSource="Header" />
+                             Margin="3,3,2,0"><!--The margin controls the spacing between the tabs-->
+                        <ContentPresenter ContentSource="Header"
+                                          Margin="11,3,11,4" /><!--The margin controls the spacing inside the tab control-->
                      </Border>
                   </ControlTemplate>
                </Setter.Value>
@@ -179,8 +180,7 @@
          </local:CustomTabControl.ItemContainerStyle>
          <TabControl.ItemTemplate>
             <DataTemplate>
-               <StackPanel Orientation="Horizontal"
-                           Margin="19,3,19,4">
+               <StackPanel Orientation="Horizontal">
                   <Button Margin="0,0,3,0"
                           Style="{StaticResource XButtonStyle}"
                           Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
