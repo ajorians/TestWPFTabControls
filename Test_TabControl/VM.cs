@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,14 @@ namespace Test_TabControl
 {
     public class VM : INotifyPropertyChanged
     {
+        public VM()
+        {
+            GroupTabs = new ObservableCollection<GroupViewModel>()
+            {
+                new GroupViewModel(){ Header= "Main Timeline" }
+            };
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void OnPropertyChanged( string prop )
@@ -17,27 +26,43 @@ namespace Test_TabControl
             PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
         }
 
-        private string _exampleText = "ABC";
-        public string ExampleText
+        private ObservableCollection<GroupViewModel> _groupTabs;
+        public ObservableCollection<GroupViewModel> GroupTabs
         {
             get
             {
-                return _exampleText;
+                return _groupTabs;
             }
             set
             {
-                if( value != _exampleText )
+                if ( value != _groupTabs )
                 {
-                    _exampleText = value;
-                    OnPropertyChanged( nameof( ExampleText ) );
+                    _groupTabs = value;
+                    OnPropertyChanged( nameof( GroupTabs ) );
+                }
+            }
+        }
+
+        private string _newGroupName = "Group 1";
+        public string NewGroupName
+        {
+            get
+            {
+                return _newGroupName;
+            }
+            set
+            {
+                if ( value != _newGroupName )
+                {
+                    _newGroupName = value;
+                    OnPropertyChanged( nameof( NewGroupName ) );
                 }
             }
         }
 
         private void AddNewGroup()
         {
-            int a = 0;
-            a++;
+            GroupTabs.Add( new GroupViewModel() { Header = NewGroupName } );
         }
 
         private ICommand _addNewGroupCommand;

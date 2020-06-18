@@ -102,27 +102,33 @@
          <RowDefinition Height="Auto" />
          <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <local:CustomTabControl Grid.Row="0"
-                              Grid.Column="1"
+      <local:CustomTabControl ItemsSource="{Binding GroupTabs,Mode=OneWay}"
                               Style="{StaticResource GroupFlatTabControlStyle}"
-                              Margin="0,1,0,0"
-                              Padding="0"
-                              HorizontalAlignment="Stretch">
-         <TabItem Style="{DynamicResource GroupTabHeaderStyle}"
-                  Header="Main Timeline">
-         </TabItem>
-         <TabItem Style="{DynamicResource GroupTabHeaderStyle}"
-                  Header="Group 1">
-         </TabItem>
-         <TabItem Style="{DynamicResource GroupTabHeaderStyle}"
-                  Header="Group 2">
-         </TabItem>
+                  Grid.Row="0"
+                  Margin="0,1,0,0"
+                  Padding="0"
+                  HorizontalAlignment="Stretch">
+         <local:CustomTabControl.ItemContainerStyle>
+            <Style TargetType="TabItem"
+                   BasedOn="{StaticResource GroupTabHeaderStyle}" />
+         </local:CustomTabControl.ItemContainerStyle>
+         <TabControl.ItemTemplate>
+            <!-- this is the header template-->
+            <DataTemplate>
+               <TextBlock Text="{Binding Header}" />
+            </DataTemplate>
+         </TabControl.ItemTemplate>
+         <TabControl.ContentTemplate>
+            <!--this is the body of the TabItem template and is empty-->
+            <DataTemplate />
+         </TabControl.ContentTemplate>
       </local:CustomTabControl>
+
       <StackPanel Grid.Row="1"
                   Orientation="Vertical">
          <Label Content="New Group Name:"
                 Margin="10,0,0,0"/>
-         <TextBox Text="{Binding Path=ExampleText, Mode=TwoWay}"
+         <TextBox Text="{Binding Path=NewGroupName, Mode=TwoWay}"
                   Margin="10,0,0,0"
                   Width="100"
                   HorizontalAlignment="Left"/>
