@@ -173,7 +173,9 @@
                               Grid.Row="0"
                               Margin="0,1,0,0"
                               Padding="0"
-                              HorizontalAlignment="Stretch">
+                              HorizontalAlignment="Stretch"
+                              Visibility="Visible"
+                              Height="26">
          <local:CustomTabControl.ItemContainerStyle>
             <Style TargetType="TabItem"
                    BasedOn="{StaticResource GroupTabHeaderStyle}" />
