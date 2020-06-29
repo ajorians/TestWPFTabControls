@@ -16,7 +16,7 @@ namespace Test_TabControl
       {
          GroupTabs = new ObservableCollection<GroupViewModel>()
          {
-               new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false, LabelBrush = Brushes.White }
+               new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false }
          };
 
          Timelines = new ObservableCollection<TimelineVM>()
@@ -112,7 +112,7 @@ namespace Test_TabControl
 
       private void AddNewGroup()
       {
-         GroupTabs.Add( new GroupViewModel( this ) { Header = NewGroupName, AllowClosing = true, LabelBrush = Brushes.Green } );
+         GroupTabs.Add( new GroupViewModel( this ) { Header = NewGroupName, AllowClosing = true } );
 
          Timelines.Add( new TimelineVM() );
 

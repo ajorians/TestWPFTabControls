@@ -61,22 +61,5 @@ namespace Test_TabControl
                 }
             }
         }
-
-        private SolidColorBrush _labelBrush;
-        public SolidColorBrush LabelBrush
-        {
-            get
-            {
-                return _labelBrush;
-            }
-            set
-            {
-                if( _labelBrush != value )
-                {
-                    _labelBrush = value;
-                    OnPropertyChanged( nameof( LabelBrush ) );
-                }
-            }
-        }
     }
 }

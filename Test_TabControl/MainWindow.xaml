@@ -11,12 +11,13 @@
    <Window.Resources>
       <ResourceDictionary>
          <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-         
+
          <Color x:Key="TextColor">#D8DEE3</Color>
          <Color x:Key="DarkPanelColor">#161b1d</Color>
          <Color x:Key="MainPanelColor">#23282f</Color>
          <Color x:Key="ControlColor">#363E45</Color>
          <Color x:Key="TextBrightColor">#FFFFFF</Color>
+         <Color x:Key="CamtasiaColor">#528400</Color>
          <SolidColorBrush x:Key="TextBrush"
                           Color="{StaticResource TextColor}" />
          <SolidColorBrush x:Key="DarkPanelBrush"
@@ -27,6 +28,8 @@
                           Color="{StaticResource ControlColor}" />
          <SolidColorBrush x:Key="TextBrightBrush"
                           Color="{StaticResource TextBrightColor}" />
+         <SolidColorBrush x:Key="CamtasiaBrush"
+                          Color="{StaticResource CamtasiaColor}" />
          <ControlTemplate x:Key="CloseXGlyphControlTemplate">
             <Grid>
                <Path x:Name="closeXGlyph"
@@ -142,9 +145,11 @@
                              HorizontalAlignment="Stretch"
                              VerticalAlignment="Stretch"
                              CornerRadius="7,7,0,0"
-                             Margin="3,3,2,0"><!--The margin controls the spacing between the tabs-->
+                             Margin="3,3,2,0">
+                        <!--The margin controls the spacing between the tabs-->
                         <ContentPresenter ContentSource="Header"
-                                          Margin="11,3,11,4" /><!--The margin controls the spacing inside the tab control-->
+                                          Margin="11,3,11,4" />
+                        <!--The margin controls the spacing inside the tab control-->
                      </Border>
                   </ControlTemplate>
                </Setter.Value>
@@ -158,6 +163,8 @@
                         Value="True">
                   <Setter Property="Background"
                           Value="{StaticResource MainPanelBrush}" />
+                  <Setter Property="Foreground"
+                    Value="{StaticResource CamtasiaBrush}" />
                </Trigger>
             </Style.Triggers>
          </Style>
@@ -165,6 +172,7 @@
    </Window.Resources>
    <Grid>
       <Grid.RowDefinitions>
+         <RowDefinition Height="Auto" />
          <RowDefinition Height="Auto" />
          <RowDefinition Height="*" />
       </Grid.RowDefinitions>
@@ -188,8 +196,7 @@
                           Style="{StaticResource XButtonStyle}"
                           Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
                           Visibility="{Binding AllowClosing, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
-                  <TextBlock Foreground="{Binding LabelBrush,Mode=OneWay}"
-                             FontSize="11"
+                  <TextBlock FontSize="11"
                              TextAlignment="Center"
                              Text="{Binding Header}" />
                </StackPanel>
@@ -262,13 +269,19 @@
                  HorizontalAlignment="Left"
                  Margin="10,0,0,0"
                  Command="{Binding Path=AddNewGroupCommand,Mode=OneTime}" />
-         <ContentControl Content="{Binding ActiveTimeline}">
-            <ContentControl.ContentTemplate>
-               <DataTemplate>
-                  <local:Timeline />
-               </DataTemplate>
-            </ContentControl.ContentTemplate>
-         </ContentControl>
       </StackPanel>
+
+      <ScrollViewer VerticalScrollBarVisibility="Auto"
+                    Grid.Row="2">
+         <StackPanel Orientation="Vertical">
+            <ContentControl Content="{Binding ActiveTimeline}">
+               <ContentControl.ContentTemplate>
+                  <DataTemplate>
+                     <local:Timeline />
+                  </DataTemplate>
+               </ContentControl.ContentTemplate>
+            </ContentControl>
+         </StackPanel>
+      </ScrollViewer>
    </Grid>
 </Window>

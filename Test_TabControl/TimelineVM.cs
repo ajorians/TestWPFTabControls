@@ -9,7 +9,7 @@ namespace Test_TabControl
       public TimelineVM()
       {
          var random = new Random();
-         int numTracks = random.Next( 5, 12 );
+         int numTracks = random.Next( 500, 1000 );
          Tracks = new ObservableCollection<TrackViewModel>();
          for(int i=0; i< numTracks; i++ )
          {
