@@ -10,68 +10,121 @@ using System.Windows.Media;
 
 namespace Test_TabControl
 {
-    public class VM : INotifyPropertyChanged, IRemoveTabs
-    {
-        public VM()
-        {
-            GroupTabs = new ObservableCollection<GroupViewModel>()
+   public class VM : INotifyPropertyChanged, IRemoveTabs
+   {
+      public VM()
+      {
+         GroupTabs = new ObservableCollection<GroupViewModel>()
+         {
+               new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false, LabelBrush = Brushes.White }
+         };
+
+         Timelines = new ObservableCollection<TimelineVM>()
+         {
+            new TimelineVM()
+         };
+      }
+
+      public event PropertyChangedEventHandler PropertyChanged;
+
+      private void OnPropertyChanged( string prop )
+      {
+         PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
+      }
+
+      private ObservableCollection<GroupViewModel> _groupTabs;
+      public ObservableCollection<GroupViewModel> GroupTabs
+      {
+         get
+         {
+            return _groupTabs;
+         }
+         set
+         {
+            if ( value != _groupTabs )
             {
-                new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false, LabelBrush = Brushes.White }
-            };
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged( string prop )
-        {
-            PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
-        }
-
-        private ObservableCollection<GroupViewModel> _groupTabs;
-        public ObservableCollection<GroupViewModel> GroupTabs
-        {
-            get
-            {
-                return _groupTabs;
+               _groupTabs = value;
+               OnPropertyChanged( nameof( GroupTabs ) );
             }
-            set
+         }
+      }
+
+      private ObservableCollection<TimelineVM> _timelines;
+      public ObservableCollection<TimelineVM> Timelines
+      {
+         get
+         {
+            return _timelines;
+         }
+         set
+         {
+            if ( value != _timelines )
             {
-                if ( value != _groupTabs )
-                {
-                    _groupTabs = value;
-                    OnPropertyChanged( nameof( GroupTabs ) );
-                }
+               _timelines = value;
+               OnPropertyChanged( nameof( Timelines ) );
             }
-        }
+         }
+      }
 
-        private string _newGroupName = "Group 1";
-        public string NewGroupName
-        {
-            get
+      private int _selectedTabIndex;
+      public int SelectedTabIndex
+      {
+         get
+         {
+            return _selectedTabIndex;
+         }
+         set
+         {
+            if ( value != _selectedTabIndex )
             {
-                return _newGroupName;
+               _selectedTabIndex = value;
+               OnPropertyChanged( nameof( SelectedTabIndex ) );
+
+               OnPropertyChanged( nameof( ActiveTimeline ) );
             }
-            set
+         }
+      }
+
+      public TimelineVM ActiveTimeline
+      {
+         get
+         {
+            return Timelines[SelectedTabIndex];
+         }
+      }
+
+      private string _newGroupName = "Group 1";
+      public string NewGroupName
+      {
+         get
+         {
+            return _newGroupName;
+         }
+         set
+         {
+            if ( value != _newGroupName )
             {
-                if ( value != _newGroupName )
-                {
-                    _newGroupName = value;
-                    OnPropertyChanged( nameof( NewGroupName ) );
-                }
+               _newGroupName = value;
+               OnPropertyChanged( nameof( NewGroupName ) );
             }
-        }
+         }
+      }
 
-        private void AddNewGroup()
-        {
-            GroupTabs.Add( new GroupViewModel(this) { Header = NewGroupName, AllowClosing = true, LabelBrush = Brushes.Green } );
-        }
+      private void AddNewGroup()
+      {
+         GroupTabs.Add( new GroupViewModel( this ) { Header = NewGroupName, AllowClosing = true, LabelBrush = Brushes.Green } );
 
-        public void RemoveTab( GroupViewModel groupViewModel )
-        {
-            GroupTabs.Remove( groupViewModel );
-        }
+         Timelines.Add( new TimelineVM() );
 
-        private ICommand _addNewGroupCommand;
-        public ICommand AddNewGroupCommand => _addNewGroupCommand ?? ( _addNewGroupCommand = new RelayCommand( AddNewGroup, () => true ) );
-    }
+         SelectedTabIndex = GroupTabs.Count - 1;
+      }
+
+      public void RemoveTab( GroupViewModel groupViewModel )
+      {
+         GroupTabs.Remove( groupViewModel );
+      }
+
+      private ICommand _addNewGroupCommand;
+      public ICommand AddNewGroupCommand => _addNewGroupCommand ?? ( _addNewGroupCommand = new RelayCommand( AddNewGroup, () => true ) );
+   }
 }

@@ -175,7 +175,8 @@
                               Padding="0"
                               HorizontalAlignment="Stretch"
                               Visibility="Visible"
-                              Height="26">
+                              Height="26"
+                              SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
          <local:CustomTabControl.ItemContainerStyle>
             <Style TargetType="TabItem"
                    BasedOn="{StaticResource GroupTabHeaderStyle}" />
@@ -261,6 +262,13 @@
                  HorizontalAlignment="Left"
                  Margin="10,0,0,0"
                  Command="{Binding Path=AddNewGroupCommand,Mode=OneTime}" />
+         <ContentControl Content="{Binding ActiveTimeline}">
+            <ContentControl.ContentTemplate>
+               <DataTemplate>
+                  <local:Timeline />
+               </DataTemplate>
+            </ContentControl.ContentTemplate>
+         </ContentControl>
       </StackPanel>
    </Grid>
 </Window>
