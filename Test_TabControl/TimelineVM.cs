@@ -9,7 +9,8 @@ namespace Test_TabControl
       public TimelineVM()
       {
          var random = new Random();
-         int numTracks = random.Next( 500, 1000 );
+         int numTracks = random.Next( 1500, 5000 );
+         //int numTracks = random.Next( 1, 5 );
          Tracks = new ObservableCollection<TrackViewModel>();
          for(int i=0; i< numTracks; i++ )
          {
@@ -37,6 +38,23 @@ namespace Test_TabControl
             {
                _tracks = value;
                OnPropertyChanged( nameof( Tracks ) );
+            }
+         }
+      }
+
+      private bool _isActiveTimeline = false;
+      public bool IsActiveTimeline
+      {
+         get
+         {
+            return _isActiveTimeline;
+         }
+         set
+         {
+            if ( value != _isActiveTimeline )
+            {
+               _isActiveTimeline = value;
+               OnPropertyChanged( nameof( IsActiveTimeline ) );
             }
          }
       }

@@ -274,13 +274,21 @@
       <ScrollViewer VerticalScrollBarVisibility="Auto"
                     Grid.Row="2">
          <StackPanel Orientation="Vertical">
-            <ContentControl Content="{Binding ActiveTimeline}">
+            <!--<ContentControl Content="{Binding ActiveTimeline}">
                <ContentControl.ContentTemplate>
                   <DataTemplate>
                      <local:Timeline />
                   </DataTemplate>
                </ContentControl.ContentTemplate>
-            </ContentControl>
+            </ContentControl>-->
+            <!--<local:Timeline DataContext="{Binding ActiveTimeline,Mode=OneWay}" />-->
+            <ItemsControl ItemsSource="{Binding Timelines,Mode=OneWay}">
+               <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                     <local:Timeline Visibility="{Binding IsActiveTimeline,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" />
+                  </DataTemplate>
+               </ItemsControl.ItemTemplate>
+            </ItemsControl>
          </StackPanel>
       </ScrollViewer>
    </Grid>

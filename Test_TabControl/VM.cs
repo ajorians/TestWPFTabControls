@@ -21,7 +21,7 @@ namespace Test_TabControl
 
          Timelines = new ObservableCollection<TimelineVM>()
          {
-            new TimelineVM()
+            new TimelineVM(){ IsActiveTimeline = true }
          };
       }
 
@@ -81,6 +81,11 @@ namespace Test_TabControl
                OnPropertyChanged( nameof( SelectedTabIndex ) );
 
                OnPropertyChanged( nameof( ActiveTimeline ) );
+
+               foreach ( var timelineVM in Timelines )
+               {
+                  timelineVM.IsActiveTimeline = timelineVM == ActiveTimeline;
+               }
             }
          }
       }
@@ -117,6 +122,8 @@ namespace Test_TabControl
          Timelines.Add( new TimelineVM() );
 
          SelectedTabIndex = GroupTabs.Count - 1;
+
+         NewGroupName = "Group " + GroupTabs.Count.ToString();
       }
 
       public void RemoveTab( GroupViewModel groupViewModel )
