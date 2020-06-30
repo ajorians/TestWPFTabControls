@@ -15,15 +15,15 @@ using System.Windows.Shapes;
 
 namespace Test_TabControl
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = new VM();
-        }
-    }
+   /// <summary>
+   /// Interaction logic for MainWindow.xaml
+   /// </summary>
+   public partial class MainWindow : Window
+   {
+      public MainWindow()
+      {
+         InitializeComponent();
+         DataContext = new VM();
+      }
+   }
 }
