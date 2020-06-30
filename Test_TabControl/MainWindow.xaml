@@ -11,6 +11,9 @@
    <Window.Resources>
       <ResourceDictionary>
          <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+         <local:BoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" TrueValue="Collapsed" FalseValue="Visible" />
+         <local:EqualityConverter x:Key="EqualityConverter" />
+         <local:EqualityToVisibilityConverter x:Key="EqualityToVisibilityConverter" />
 
          <Color x:Key="TextColor">#D8DEE3</Color>
          <Color x:Key="DarkPanelColor">#161b1d</Color>
@@ -176,7 +179,7 @@
          <RowDefinition Height="Auto" />
          <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <local:CustomTabControl ItemsSource="{Binding GroupTabs,Mode=OneWay}"
+      <local:CustomTabControl ItemsSource="{Binding Timelines,Mode=OneWay}"
                               Style="{StaticResource GroupFlatTabControlStyle}"
                               Grid.Row="0"
                               Margin="0,1,0,0"
@@ -194,11 +197,11 @@
                <StackPanel Orientation="Horizontal">
                   <Button Margin="0,0,3,0"
                           Style="{StaticResource XButtonStyle}"
-                          Command="{Binding Path=RemoveGroupCommand,Mode=OneTime}"
-                          Visibility="{Binding AllowClosing, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}" />
+                          Command="{Binding Path=Tab.CloseTabCommand,Mode=OneTime}"
+                          Visibility="{Binding Tab.Permanent, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}" />
                   <TextBlock FontSize="11"
                              TextAlignment="Center"
-                             Text="{Binding Header}" />
+                             Text="{Binding Tab.Header}" />
                </StackPanel>
             </DataTemplate>
          </TabControl.ItemTemplate>
@@ -285,7 +288,15 @@
             <ItemsControl ItemsSource="{Binding Timelines,Mode=OneWay}">
                <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                     <local:Timeline Visibility="{Binding IsActiveTimeline,Converter={StaticResource BoolToVisibilityConverter},Mode=OneWay}" />
+                     <local:Timeline>
+                        <local:Timeline.Visibility>
+                           <MultiBinding Converter="{StaticResource EqualityToVisibilityConverter}">
+                              <Binding Path="." />
+                              <Binding Path="DataContext.ActiveTimeline"
+                                       RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                           </MultiBinding>
+                        </local:Timeline.Visibility>
+                     </local:Timeline>
                   </DataTemplate>
                </ItemsControl.ItemTemplate>
             </ItemsControl>

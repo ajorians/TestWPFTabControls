@@ -6,11 +6,12 @@ namespace Test_TabControl
 {
    public class TimelineVM : INotifyPropertyChanged
    {
+      public event EventHandler<EventArgs> CloseRequested;
       public TimelineVM()
       {
          var random = new Random();
-         int numTracks = random.Next( 1500, 5000 );
-         //int numTracks = random.Next( 1, 5 );
+         //int numTracks = random.Next( 1500, 5000 );
+         int numTracks = random.Next( 1, 5 );
          Tracks = new ObservableCollection<TrackViewModel>();
          for(int i=0; i< numTracks; i++ )
          {
@@ -23,6 +24,30 @@ namespace Test_TabControl
       private void OnPropertyChanged( string prop )
       {
          PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
+      }
+
+      private TimelineTabViewModel _tab;
+      public TimelineTabViewModel Tab
+      {
+         get
+         {
+            return _tab;
+         }
+         set
+         {
+            if ( value != _tab )
+            {
+               _tab = value;
+               OnPropertyChanged( nameof( Tab ) );
+
+               Tab.CloseRequested += Tab_CloseRequested;
+            }
+         }
+      }
+
+      private void Tab_CloseRequested( object sender, EventArgs e )
+      {
+         CloseRequested?.Invoke( this, EventArgs.Empty );
       }
 
       private ObservableCollection<TrackViewModel> _tracks;
@@ -38,23 +63,6 @@ namespace Test_TabControl
             {
                _tracks = value;
                OnPropertyChanged( nameof( Tracks ) );
-            }
-         }
-      }
-
-      private bool _isActiveTimeline = false;
-      public bool IsActiveTimeline
-      {
-         get
-         {
-            return _isActiveTimeline;
-         }
-         set
-         {
-            if ( value != _isActiveTimeline )
-            {
-               _isActiveTimeline = value;
-               OnPropertyChanged( nameof( IsActiveTimeline ) );
             }
          }
       }
