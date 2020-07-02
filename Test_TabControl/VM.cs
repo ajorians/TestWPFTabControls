@@ -9,22 +9,7 @@ namespace Test_TabControl
    {
       public VM()
       {
-         var mainTimeline = new TimelineVM()
-         {
-            Tab = new TimelineTabViewModel( _nextID++ ){ Header= "Main Timeline", Permanent=true }
-         };
-
-         mainTimeline.CloseRequested += Timeline_CloseRequested;
-
-         Timelines = new ObservableCollection<TimelineVM>()
-         {
-            mainTimeline
-         };
-      }
-
-      private void Timeline_CloseRequested( object sender, EventArgs e )
-      {
-         _ = Timelines.Remove( sender as TimelineVM );
+         TimelineCollection = new TimelineCollectionVM();
       }
 
       private int _nextID = 0;
@@ -36,52 +21,20 @@ namespace Test_TabControl
          PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
       }
 
-      private ObservableCollection<TimelineVM> _timelines;
-      public ObservableCollection<TimelineVM> Timelines
+      private TimelineCollectionVM _timelineCollection;
+      public TimelineCollectionVM TimelineCollection
       {
          get
          {
-            return _timelines;
+            return _timelineCollection;
          }
          set
          {
-            if ( value != _timelines )
+            if ( value != _timelineCollection )
             {
-               _timelines = value;
-               OnPropertyChanged( nameof( Timelines ) );
+               _timelineCollection = value;
+               OnPropertyChanged( nameof( TimelineCollection ) );
             }
-         }
-      }
-
-      private int _selectedTabIndex;
-      public int SelectedTabIndex
-      {
-         get
-         {
-            return _selectedTabIndex;
-         }
-         set
-         {
-            if ( value != _selectedTabIndex )
-            {
-               _selectedTabIndex = value;
-               OnPropertyChanged( nameof( SelectedTabIndex ) );
-
-               OnPropertyChanged( nameof( ActiveTimeline ) );
-            }
-         }
-      }
-
-      public TimelineVM ActiveTimeline
-      {
-         get
-         {
-            if ( SelectedTabIndex < 0 || SelectedTabIndex >= Timelines.Count )
-            {
-               return null;
-            }
-
-            return Timelines[SelectedTabIndex];
          }
       }
 
@@ -104,18 +57,9 @@ namespace Test_TabControl
 
       private void AddNewGroup()
       {
-         var newTimeline = new TimelineVM()
-         {
-            Tab = new TimelineTabViewModel( _nextID++ ) { Header = NewGroupName, Permanent = false }
-         };
+         TimelineCollection.AddNewGroup( _nextID++, NewGroupName );
 
-         newTimeline.CloseRequested += Timeline_CloseRequested;
-
-         Timelines.Add( newTimeline );
-
-         SelectedTabIndex = Timelines.Count - 1;
-
-         NewGroupName = "Group " + Timelines.Count.ToString();
+         NewGroupName = "Group " + TimelineCollection.Timelines.Count.ToString();
       }
 
       private ICommand _addNewGroupCommand;

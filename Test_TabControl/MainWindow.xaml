@@ -179,7 +179,7 @@
          <RowDefinition Height="Auto" />
          <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <local:CustomTabControl ItemsSource="{Binding Timelines,Mode=OneWay}"
+      <local:CustomTabControl ItemsSource="{Binding TimelineCollection.Timelines,Mode=OneWay}"
                               Style="{StaticResource GroupFlatTabControlStyle}"
                               Grid.Row="0"
                               Margin="0,1,0,0"
@@ -187,7 +187,7 @@
                               HorizontalAlignment="Stretch"
                               Visibility="Visible"
                               Height="26"
-                              SelectedIndex="{Binding SelectedTabIndex, Mode=TwoWay}">
+                              SelectedIndex="{Binding TimelineCollection.SelectedTabIndex, Mode=TwoWay}">
          <local:CustomTabControl.ItemContainerStyle>
             <Style TargetType="TabItem"
                    BasedOn="{StaticResource GroupTabHeaderStyle}" />
@@ -285,21 +285,14 @@
                </ContentControl.ContentTemplate>
             </ContentControl>-->
             <!--<local:Timeline DataContext="{Binding ActiveTimeline,Mode=OneWay}" />-->
-            <ItemsControl ItemsSource="{Binding Timelines,Mode=OneWay}">
+            <local:SelectedItemsControl ItemsSource="{Binding TimelineCollection.Timelines,Mode=OneWay}"
+                                        SelectedIndex="{Binding TimelineCollection.SelectedTabIndex,Mode=OneWay}">
                <ItemsControl.ItemTemplate>
                   <DataTemplate>
-                     <local:Timeline>
-                        <local:Timeline.Visibility>
-                           <MultiBinding Converter="{StaticResource EqualityToVisibilityConverter}">
-                              <Binding Path="." />
-                              <Binding Path="DataContext.ActiveTimeline"
-                                       RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
-                           </MultiBinding>
-                        </local:Timeline.Visibility>
-                     </local:Timeline>
+                     <local:Timeline />
                   </DataTemplate>
                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            </local:SelectedItemsControl>
          </StackPanel>
       </ScrollViewer>
    </Grid>
