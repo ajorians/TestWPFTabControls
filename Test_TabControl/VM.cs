@@ -2,28 +2,28 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace Test_TabControl
 {
-   public class VM : INotifyPropertyChanged, IRemoveTabs
+   public class RandomNumbers
    {
-      public VM()
+      private static Random _randomGenerator = new Random();
+      public static IEnumerable<int> GetRandom( int min, int max)
       {
-         GroupTabs = new ObservableCollection<GroupViewModel>()
-         {
-               new GroupViewModel( this ){ Header= "Main Timeline", AllowClosing=false }
-         };
-
-         Timelines = new ObservableCollection<TimelineVM>()
-         {
-            new TimelineVM(){ IsActiveTimeline = true }
-         };
+         yield return _randomGenerator.Next( min, max );
       }
+   }
+   public class VM : INotifyPropertyChanged
+   {
+
+      public VM(in List<int> r)
+      {
+         r.Add( 4 );
+         TimelineCollection = new TimelineCollectionVM();
+      }
+
+      private int _nextID = 0;
 
       public event PropertyChangedEventHandler PropertyChanged;
 
@@ -32,69 +32,20 @@ namespace Test_TabControl
          PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
       }
 
-      private ObservableCollection<GroupViewModel> _groupTabs;
-      public ObservableCollection<GroupViewModel> GroupTabs
+      private TimelineCollectionVM _timelineCollection;
+      public TimelineCollectionVM TimelineCollection
       {
          get
          {
-            return _groupTabs;
+            return _timelineCollection;
          }
          set
          {
-            if ( value != _groupTabs )
+            if ( value != _timelineCollection )
             {
-               _groupTabs = value;
-               OnPropertyChanged( nameof( GroupTabs ) );
+               _timelineCollection = value;
+               OnPropertyChanged( nameof( TimelineCollection ) );
             }
-         }
-      }
-
-      private ObservableCollection<TimelineVM> _timelines;
-      public ObservableCollection<TimelineVM> Timelines
-      {
-         get
-         {
-            return _timelines;
-         }
-         set
-         {
-            if ( value != _timelines )
-            {
-               _timelines = value;
-               OnPropertyChanged( nameof( Timelines ) );
-            }
-         }
-      }
-
-      private int _selectedTabIndex;
-      public int SelectedTabIndex
-      {
-         get
-         {
-            return _selectedTabIndex;
-         }
-         set
-         {
-            if ( value != _selectedTabIndex )
-            {
-               _selectedTabIndex = value;
-               OnPropertyChanged( nameof( SelectedTabIndex ) );
-
-               OnPropertyChanged( nameof( ActiveTimeline ) );
-
-               foreach ( var timelineVM in Timelines )
-               {
-                  timelineVM.IsActiveTimeline = timelineVM == ActiveTimeline;
-               }
-            }
-         }
-      }
-
-      public TimelineVM ActiveTimeline
-      {
-         get
-         {
-            return Timelines[SelectedTabIndex];
          }
       }
 
@@ -117,18 +68,9 @@ namespace Test_TabControl
 
       private void AddNewGroup()
       {
-         GroupTabs.Add( new GroupViewModel( this ) { Header = NewGroupName, AllowClosing = true } );
+         TimelineCollection.AddNewGroup( _nextID++, NewGroupName );
 
-         Timelines.Add( new TimelineVM() );
-
-         SelectedTabIndex = GroupTabs.Count - 1;
-
-         NewGroupName = "Group " + GroupTabs.Count.ToString();
-      }
-
-      public void RemoveTab( GroupViewModel groupViewModel )
-      {
-         GroupTabs.Remove( groupViewModel );
+         NewGroupName = "Group " + TimelineCollection.Tabs.Count.ToString();
       }
 
       private ICommand _addNewGroupCommand;

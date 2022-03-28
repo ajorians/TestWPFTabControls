@@ -58,9 +58,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BoolToVisibilityConverter.cs" />
+    <Compile Include="EqualityToVisibilityConverter.cs" />
+    <Compile Include="EqualityConverter.cs" />
+    <Compile Include="SelectedItemsControl.cs" />
+    <Compile Include="TimelineCollectionVM.cs" />
     <Compile Include="TrackViewModel.cs" />
-    <Compile Include="GroupViewModel.cs" />
-    <Compile Include="IRemoveTabs.cs" />
+    <Compile Include="TimelineTabViewModel.cs" />
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Timeline.xaml.cs">
       <DependentUpon>Timeline.xaml</DependentUpon>

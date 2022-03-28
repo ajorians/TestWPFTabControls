@@ -6,23 +6,26 @@
              xmlns:local="clr-namespace:Test_TabControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical">
-      <Button Content="This is a timeline :)" />
-      <ItemsControl ItemsSource="{Binding Tracks,Mode=OneWay}">
-         <ItemsControl.ItemTemplate>
-            <DataTemplate>
-               <Grid Margin="0,0,0,5">
-                  <Grid.ColumnDefinitions>
-                     <ColumnDefinition Width="100" />
-                     <ColumnDefinition Width="100" />
-                     <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-                  <TextBlock Text="{Binding TrackName,Mode=OneWay}" />
-                  <TextBox Grid.Column="1"
+   <ScrollViewer VerticalScrollBarVisibility="Auto">
+      <StackPanel Orientation="Vertical">
+         <Button Content="This is a timeline :)" />
+         <ItemsControl ItemsSource="{Binding Tracks,Mode=OneWay}">
+            <ItemsControl.ItemTemplate>
+               <DataTemplate>
+                  <Grid Margin="0,0,0,5">
+                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="100" />
+                        <ColumnDefinition Width="*" />
+                     </Grid.ColumnDefinitions>
+                     <TextBlock Text="{Binding TrackName,Mode=OneWay}" />
+                     <TextBox Grid.Column="1"
                            Text="{Binding TrackName,Mode=TwoWay}" />
-               </Grid>
-            </DataTemplate>
-         </ItemsControl.ItemTemplate>
-      </ItemsControl>
-   </StackPanel>
+                  </Grid>
+               </DataTemplate>
+            </ItemsControl.ItemTemplate>
+         </ItemsControl>
+         <Button Content="Add Track" Command="{Binding AddTrackCommand,Mode=OneWay}" />
+      </StackPanel>
+   </ScrollViewer>
 </UserControl>
