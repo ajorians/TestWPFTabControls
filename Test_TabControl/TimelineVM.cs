@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Test_TabControl
 {
    public class TimelineVM : INotifyPropertyChanged
    {
-      public event EventHandler<EventArgs> CloseRequested;
+      //public event EventHandler<EventArgs> CloseRequested;
       public TimelineVM()
       {
          var random = new Random();
@@ -26,30 +27,6 @@ namespace Test_TabControl
          PropertyChanged?.Invoke( this, new PropertyChangedEventArgs( prop ) );
       }
 
-      private TimelineTabViewModel _tab;
-      public TimelineTabViewModel Tab
-      {
-         get
-         {
-            return _tab;
-         }
-         set
-         {
-            if ( value != _tab )
-            {
-               _tab = value;
-               OnPropertyChanged( nameof( Tab ) );
-
-               Tab.CloseRequested += Tab_CloseRequested;
-            }
-         }
-      }
-
-      private void Tab_CloseRequested( object sender, EventArgs e )
-      {
-         CloseRequested?.Invoke( this, EventArgs.Empty );
-      }
-
       private ObservableCollection<TrackViewModel> _tracks;
       public ObservableCollection<TrackViewModel> Tracks
       {
@@ -65,6 +42,14 @@ namespace Test_TabControl
                OnPropertyChanged( nameof( Tracks ) );
             }
          }
+      }
+
+      private ICommand _addTrackCommand;
+      public ICommand AddTrackCommand => _addTrackCommand ?? ( _addTrackCommand = new RelayCommand( AddTrack ) );
+
+      private void AddTrack()
+      {
+         Tracks.Add( new TrackViewModel() { TrackName = "Track " + ( Tracks.Count + 1 ).ToString() } );
       }
    }
 }

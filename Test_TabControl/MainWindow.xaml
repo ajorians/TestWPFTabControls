@@ -177,9 +177,9 @@
       <Grid.RowDefinitions>
          <RowDefinition Height="Auto" />
          <RowDefinition Height="Auto" />
-         <RowDefinition Height="*" />
+         <RowDefinition Height="*"/>
       </Grid.RowDefinitions>
-      <local:CustomTabControl ItemsSource="{Binding TimelineCollection.Timelines,Mode=OneWay}"
+      <local:CustomTabControl ItemsSource="{Binding TimelineCollection.Tabs,Mode=OneWay}"
                               Style="{StaticResource GroupFlatTabControlStyle}"
                               Grid.Row="0"
                               Margin="0,1,0,0"
@@ -197,11 +197,11 @@
                <StackPanel Orientation="Horizontal">
                   <Button Margin="0,0,3,0"
                           Style="{StaticResource XButtonStyle}"
-                          Command="{Binding Path=Tab.CloseTabCommand,Mode=OneTime}"
-                          Visibility="{Binding Tab.Permanent, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}" />
+                          Command="{Binding Path=CloseTabCommand,Mode=OneTime}"
+                          Visibility="{Binding Permanent, Converter={StaticResource InverseBoolToVisibilityConverter}, Mode=OneWay}" />
                   <TextBlock FontSize="11"
                              TextAlignment="Center"
-                             Text="{Binding Tab.Header}" />
+                             Text="{Binding Header}" />
                </StackPanel>
             </DataTemplate>
          </TabControl.ItemTemplate>
@@ -274,26 +274,52 @@
                  Command="{Binding Path=AddNewGroupCommand,Mode=OneTime}" />
       </StackPanel>
 
-      <ScrollViewer VerticalScrollBarVisibility="Auto"
-                    Grid.Row="2">
-         <StackPanel Orientation="Vertical">
-            <!--<ContentControl Content="{Binding ActiveTimeline}">
+      <!--<ScrollViewer VerticalScrollBarVisibility="Auto"
+                    >
+         <StackPanel Orientation="Vertical">-->
+      <!--<ContentControl Content="{Binding ActiveTimeline}">
                <ContentControl.ContentTemplate>
                   <DataTemplate>
                      <local:Timeline />
                   </DataTemplate>
                </ContentControl.ContentTemplate>
             </ContentControl>-->
-            <!--<local:Timeline DataContext="{Binding ActiveTimeline,Mode=OneWay}" />-->
-            <local:SelectedItemsControl ItemsSource="{Binding TimelineCollection.Timelines,Mode=OneWay}"
-                                        SelectedIndex="{Binding TimelineCollection.SelectedTabIndex,Mode=OneWay}">
-               <ItemsControl.ItemTemplate>
-                  <DataTemplate>
-                     <local:Timeline />
-                  </DataTemplate>
-               </ItemsControl.ItemTemplate>
-            </local:SelectedItemsControl>
-         </StackPanel>
-      </ScrollViewer>
+      <!--<local:Timeline DataContext="{Binding ActiveTimeline,Mode=OneWay}" />-->
+      <local:SelectedItemsControl ItemsSource="{Binding TimelineCollection.Tabs,Mode=OneWay}"
+                                        SelectedIndex="{Binding TimelineCollection.SelectedTabIndex,Mode=OneWay}"
+                                        Grid.Row="2"
+                                        Background="Tomato"
+                                  VerticalAlignment="Bottom"
+                                        >
+         <!--<ItemsControl.ItemContainerStyle>
+            <Style TargetType="ContentPresenter">
+               <Setter Property="VerticalAlignment" Value="Stretch" />
+               <Setter Property="HorizontalAlignment" Value="Stretch" />
+
+               --><!--<Setter Property="Visibility">
+                  <Setter.Value>
+                     <MultiBinding Converter="{StaticResource CompareIndexToVisibilityConverter}">
+                        <Binding Path="Index" />
+                        <Binding Path="SelectedIndex" />
+                     </MultiBinding>
+                  </Setter.Value>
+               </Setter>--><!--
+            </Style >
+         </ItemsControl.ItemContainerStyle>-->
+         <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+               <Grid />
+            </ItemsPanelTemplate>
+         </ItemsControl.ItemsPanel>
+         <ItemsControl.ItemTemplate>
+            <DataTemplate>
+               <local:Timeline DataContext="{Binding TimelineVM}"
+                                     VerticalContentAlignment="Stretch"
+                                     VerticalAlignment="Stretch"/>
+            </DataTemplate>
+         </ItemsControl.ItemTemplate>
+      </local:SelectedItemsControl>
+      <!--</StackPanel>
+      </ScrollViewer>-->
    </Grid>
 </Window>

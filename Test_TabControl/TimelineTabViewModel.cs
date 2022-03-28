@@ -59,5 +59,22 @@ namespace Test_TabControl
             }
          }
       }
+
+      private TimelineVM _timelineVM;
+      public TimelineVM TimelineVM
+      {
+         get
+         {
+            return _timelineVM;
+         }
+         set
+         {
+            if ( value != _timelineVM )
+            {
+               _timelineVM = value;
+               OnPropertyChanged( nameof( TimelineVM ) );
+            }
+         }
+      }
    }
 }

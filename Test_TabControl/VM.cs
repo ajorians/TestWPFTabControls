@@ -1,14 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 
 namespace Test_TabControl
 {
+   public class RandomNumbers
+   {
+      private static Random _randomGenerator = new Random();
+      public static IEnumerable<int> GetRandom( int min, int max)
+      {
+         yield return _randomGenerator.Next( min, max );
+      }
+   }
    public class VM : INotifyPropertyChanged
    {
-      public VM()
+
+      public VM(in List<int> r)
       {
+         r.Add( 4 );
          TimelineCollection = new TimelineCollectionVM();
       }
 
@@ -59,7 +70,7 @@ namespace Test_TabControl
       {
          TimelineCollection.AddNewGroup( _nextID++, NewGroupName );
 
-         NewGroupName = "Group " + TimelineCollection.Timelines.Count.ToString();
+         NewGroupName = "Group " + TimelineCollection.Tabs.Count.ToString();
       }
 
       private ICommand _addNewGroupCommand;
